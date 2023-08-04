@@ -1,10 +1,10 @@
 package com.reto.plazoleta.application.handler;
 
-import com.pragma.powerup.application.dto.request.ObjectRequestDto;
-import com.pragma.powerup.application.dto.response.ObjectResponseDto;
-import com.pragma.powerup.application.handler.IObjectHandler;
-import com.pragma.powerup.application.mapper.IObjectResponseMapper;
-import com.pragma.powerup.domain.api.IObjectServicePort;
+
+import com.reto.plazoleta.application.dto.request.RestaurantRequestDto;
+import com.reto.plazoleta.application.mapper.IRestaurantRequestMapper;
+import com.reto.plazoleta.domain.api.IRestaurantServicePort;
+import com.reto.plazoleta.domain.model.RestaurantModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,20 +14,15 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class ObjectHandler implements IObjectHandler {
+public class RestaurantHandler implements IRestaurantHandler {
 
-    private final IObjectServicePort objectServicePort;
-    private final com.pragma.powerup.application.mapper.IRestaurantRequestMapper objectRequestMapper;
-    private final IObjectResponseMapper objectResponseMapper;
+    private final IRestaurantServicePort restaurantServicePort;
+    private final IRestaurantRequestMapper restaurantRequestMapper;
 
-    @Override
-    public void saveObject(ObjectRequestDto objectRequestDto) {
-        com.pragma.powerup.domain.model.RestaurantModel restaurantModel = objectRequestMapper.toObject(objectRequestDto);
-        objectServicePort.saveObject(restaurantModel);
-    }
 
     @Override
-    public List<ObjectResponseDto> getAllObjects() {
-        return objectResponseMapper.toResponseList(objectServicePort.getAllObjects());
+    public void saveRestaurant(RestaurantRequestDto restaurantRequestDto) {
+        RestaurantModel restaurantModel = restaurantRequestMapper.toRestaurant(restaurantRequestDto);
+        restaurantServicePort.saveRestaurant(restaurantModel);
     }
 }
