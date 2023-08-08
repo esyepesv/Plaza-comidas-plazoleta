@@ -1,4 +1,4 @@
-package com.pragma.powerup.infrastructure.out.jpa.entity;
+package com.reto.plazoleta.infrastructure.out.jpa.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,17 +13,26 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "objectTable")
+@Table(name = "restaurants")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class ObjectEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class RestaurantEntity {
+
     @Id
-    @Column(name = "object_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 50)
     private String name;
+
+    private String direction;
+
+    private Long idOwner;
+
+    private String phone;
+
+    private String urlLogo;
+
+    private String nit;
 }

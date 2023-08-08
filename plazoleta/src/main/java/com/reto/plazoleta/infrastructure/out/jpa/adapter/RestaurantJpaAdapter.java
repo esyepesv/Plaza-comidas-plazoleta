@@ -1,33 +1,24 @@
-package com.pragma.powerup.infrastructure.out.jpa.adapter;
+package com.reto.plazoleta.infrastructure.out.jpa.adapter;
 
-import com.pragma.powerup.domain.spi.IObjectPersistencePort;
-import com.pragma.powerup.infrastructure.exception.NoDataFoundException;
-import com.pragma.powerup.infrastructure.out.jpa.entity.ObjectEntity;
-import com.pragma.powerup.infrastructure.out.jpa.mapper.IObjectEntityMapper;
-import com.pragma.powerup.infrastructure.out.jpa.repository.IObjectRepository;
+import com.reto.plazoleta.domain.model.RestaurantModel;
+import com.reto.plazoleta.domain.spi.IRestaurantPersistencePort;
+import com.reto.plazoleta.infrastructure.out.jpa.entity.RestaurantEntity;
+import com.reto.plazoleta.infrastructure.out.jpa.mapper.IRestaurantEntityMapper;
+import com.reto.plazoleta.infrastructure.out.jpa.repository.IRestaurantRepository;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 @RequiredArgsConstructor
-public class RestaurantJpaAdapter implements IObjectPersistencePort {
+public class RestaurantJpaAdapter implements IRestaurantPersistencePort {
 
-    private final IObjectRepository objectRepository;
-    private final IObjectEntityMapper objectEntityMapper;
+    private final IRestaurantRepository restaurantRepository;
+    private final IRestaurantEntityMapper restaurantEntityMapper;
 
-
-    @Override
-    public com.pragma.powerup.domain.model.RestaurantModel saveObject(com.pragma.powerup.domain.model.RestaurantModel restaurantModel) {
-        ObjectEntity objectEntity = objectRepository.save(objectEntityMapper.toEntity(restaurantModel));
-        return objectEntityMapper.toObjectModel(objectEntity);
-    }
 
     @Override
-    public List<com.pragma.powerup.domain.model.RestaurantModel> getAllObjects() {
-        List<ObjectEntity> entityList = objectRepository.findAll();
-        if (entityList.isEmpty()) {
-            throw new NoDataFoundException();
-        }
-        return objectEntityMapper.toObjectModelList(entityList);
+    public RestaurantModel saveRestaurant(RestaurantModel restaurant) {
+        RestaurantEntity restaurantEntity = restaurantRepository.save(restaurantEntityMapper.toEntity(restaurant));
+        return restaurantEntityMapper.toRestaurantModel(restaurantEntity);
     }
 }

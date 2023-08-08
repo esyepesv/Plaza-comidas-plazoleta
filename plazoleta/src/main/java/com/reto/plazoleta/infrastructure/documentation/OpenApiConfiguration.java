@@ -1,4 +1,4 @@
-package com.pragma.powerup.infrastructure.documentation;
+package com.reto.plazoleta.infrastructure.documentation;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -17,7 +17,7 @@ public class OpenApiConfiguration {
         return new OpenAPI()
             .components(new Components())
             .info(new Info()
-                .title("Hexagonal Power-up API")
+                .title("Microservicio de plazoleta")
                 .version(appVersion)
                 .description(appDescription)
                 .termsOfService("http://swagger.io/terms/")

@@ -1,4 +1,4 @@
-package com.pragma.powerup.infrastructure.exception;
+package com.reto.plazoleta.infrastructure.exception;
 
 public class NoDataFoundException extends RuntimeException {
     public NoDataFoundException() {

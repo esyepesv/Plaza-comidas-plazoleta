@@ -1,9 +1,11 @@
-package com.pragma.powerup.infrastructure.configuration;
+package com.reto.plazoleta.infrastructure.configuration;
 
-import com.pragma.powerup.domain.api.IObjectServicePort;
-import com.pragma.powerup.domain.spi.IObjectPersistencePort;
-import com.pragma.powerup.infrastructure.out.jpa.mapper.IObjectEntityMapper;
-import com.pragma.powerup.infrastructure.out.jpa.repository.IObjectRepository;
+import com.reto.plazoleta.domain.api.IRestaurantServicePort;
+import com.reto.plazoleta.domain.spi.IRestaurantPersistencePort;
+import com.reto.plazoleta.domain.usecase.RestaurantUseCase;
+import com.reto.plazoleta.infrastructure.out.jpa.adapter.RestaurantJpaAdapter;
+import com.reto.plazoleta.infrastructure.out.jpa.mapper.IRestaurantEntityMapper;
+import com.reto.plazoleta.infrastructure.out.jpa.repository.IRestaurantRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,16 +13,16 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @RequiredArgsConstructor
 public class BeanConfiguration {
-    private final IObjectRepository objectRepository;
-    private final IObjectEntityMapper objectEntityMapper;
+    private final IRestaurantRepository restaurantRepository;
+    private final IRestaurantEntityMapper restaurantEntityMapper;
 
     @Bean
-    public IObjectPersistencePort objectPersistencePort() {
-        return new com.pragma.powerup.infrastructure.out.jpa.adapter.RestaurantJpaAdapter(objectRepository, objectEntityMapper);
+    public IRestaurantPersistencePort restaurantPersistencePort() {
+        return new RestaurantJpaAdapter(restaurantRepository, restaurantEntityMapper);
     }
 
     @Bean
-    public IObjectServicePort objectServicePort() {
-        return new com.pragma.powerup.domain.usecase.RestaurantUseCase(objectPersistencePort());
+    public IRestaurantServicePort restaurantServicePort() {
+        return new RestaurantUseCase(restaurantPersistencePort());
     }
 }

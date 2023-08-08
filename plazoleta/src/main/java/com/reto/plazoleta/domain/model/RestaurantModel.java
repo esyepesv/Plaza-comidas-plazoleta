@@ -13,7 +13,7 @@ public class RestaurantModel {
     private Long id;
     private String name;
     private String direction;
-    private Long idPropietario;
+    private Long idOwner;
     private String phone;
     private String urlLogo;
     private String nit;
