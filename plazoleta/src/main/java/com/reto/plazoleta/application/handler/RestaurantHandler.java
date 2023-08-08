@@ -31,14 +31,12 @@ public class RestaurantHandler implements IRestaurantHandler {
         ResponseEntity<UserDto> response = client.getUser(restaurantRequestDto.getIdOwner());
         if(response.getStatusCode().is2xxSuccessful()){
             UserDto user = response.getBody();
-            if(user.getIdRol() == 2){
+            if (user != null && user.getIdRol() == 2) {
                 RestaurantModel restaurantModel = restaurantRequestMapper.toRestaurant(restaurantRequestDto);
                 restaurantServicePort.saveRestaurant(restaurantModel);
             }
             else throw new InvalidUserRoleException();
         }
         else throw new UserNotFoundException();
-
-
     }
 }
