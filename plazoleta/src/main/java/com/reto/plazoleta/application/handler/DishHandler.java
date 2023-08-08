@@ -18,6 +18,8 @@ public class DishHandler implements IDishHandler{
     @Override
     public void saveDish(DishRequestDto dishRequestDto) {
         DishModel dish = dishRequestMapper.toDish(dishRequestDto);
+        dish.setActive(true);
+        dish.setIdRestaurant(5L); // esto se cambia al agregar autenticacion
         dishServicePort.saveDish(dish);
     }
 }
