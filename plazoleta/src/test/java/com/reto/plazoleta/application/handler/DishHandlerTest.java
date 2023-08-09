@@ -1,6 +1,6 @@
 package com.reto.plazoleta.application.handler;
 
-import com.reto.plazoleta.application.dto.request.DishRequestDto;
+import com.reto.plazoleta.application.dto.request.dish.DishRequestDto;
 import com.reto.plazoleta.application.mapper.IDishRequestMapper;
 import com.reto.plazoleta.domain.api.IDishServicePort;
 import com.reto.plazoleta.domain.model.DishModel;
@@ -10,7 +10,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 

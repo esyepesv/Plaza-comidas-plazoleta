@@ -2,7 +2,7 @@ package com.reto.plazoleta.application.handler;
 
 
 import com.reto.plazoleta.application.dto.UserDto;
-import com.reto.plazoleta.application.dto.request.RestaurantRequestDto;
+import com.reto.plazoleta.application.dto.request.restaurant.RestaurantRequestDto;
 import com.reto.plazoleta.application.exception.InvalidUserRoleException;
 import com.reto.plazoleta.application.exception.UserNotFoundException;
 import com.reto.plazoleta.application.mapper.IRestaurantRequestMapper;
@@ -13,8 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

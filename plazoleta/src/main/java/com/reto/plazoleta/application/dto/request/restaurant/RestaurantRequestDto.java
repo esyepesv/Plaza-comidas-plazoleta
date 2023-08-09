@@ -1,4 +1,4 @@
-package com.reto.plazoleta.application.dto.request;
+package com.reto.plazoleta.application.dto.request.restaurant;
 
 import com.reto.plazoleta.application.validation.NotNumericOnly;
 import lombok.Getter;

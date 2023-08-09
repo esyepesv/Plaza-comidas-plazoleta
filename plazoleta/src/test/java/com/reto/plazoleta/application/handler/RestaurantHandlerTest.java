@@ -1,14 +1,13 @@
 package com.reto.plazoleta.application.handler;
 
 import com.reto.plazoleta.application.dto.UserDto;
-import com.reto.plazoleta.application.dto.request.RestaurantRequestDto;
+import com.reto.plazoleta.application.dto.request.restaurant.RestaurantRequestDto;
 import com.reto.plazoleta.application.exception.InvalidUserRoleException;
 import com.reto.plazoleta.application.exception.UserNotFoundException;
 import com.reto.plazoleta.application.mapper.IRestaurantRequestMapper;
 import com.reto.plazoleta.domain.api.IRestaurantServicePort;
 import com.reto.plazoleta.domain.model.RestaurantModel;
 import com.reto.plazoleta.infrastructure.out.feign.UserFeignClient;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
