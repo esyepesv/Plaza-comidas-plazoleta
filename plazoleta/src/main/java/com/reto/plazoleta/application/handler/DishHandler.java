@@ -27,16 +27,17 @@ public class DishHandler implements IDishHandler{
     @Override
     public void updateDish(DishUpdateRequestDto dishUpdateRequestDto) {
         DishModel dish = dishServicePort.getDish(dishUpdateRequestDto.getId());
+        if (dish != null) {
+            int newPrice = dishUpdateRequestDto.getPrice();
+            String newDescription = dishUpdateRequestDto.getDescription();
 
-        int newPrice = dishUpdateRequestDto.getPrice();
-        String newDescription = dishUpdateRequestDto.getDescription();
-
-        if(newPrice > 0){
-            dish.setPrice(newPrice);
+            if (newPrice > 0) {
+                dish.setPrice(newPrice);
+            }
+            if (newDescription != null) {
+                dish.setDescription(newDescription);
+            }
+            dishServicePort.updateDish(dish);
         }
-        if(newDescription != null){
-            dish.setDescription(newDescription);
-        }
-        dishServicePort.updateDish(dish);
     }
 }

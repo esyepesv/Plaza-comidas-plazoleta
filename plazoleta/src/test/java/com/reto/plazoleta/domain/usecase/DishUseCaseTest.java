@@ -10,6 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class DishUseCaseTest {
@@ -26,5 +27,32 @@ class DishUseCaseTest {
         dishUseCase.saveDish(dishModel);
 
         verify(dishPersistencePort).saveDish(dishModel);
+    }
+
+
+    @Test
+    void getDish() {
+        long dishId = 1L;
+
+        DishModel expectedDish = new DishModel();
+        expectedDish.setId(dishId);
+        when(dishPersistencePort.getDish(dishId)).thenReturn(expectedDish);
+
+        DishModel actualDish = dishUseCase.getDish(dishId);
+
+        assertNotNull(actualDish);
+        assertEquals(dishId, actualDish.getId());
+        verify(dishPersistencePort).getDish(dishId);
+    }
+
+    @Test
+    void updateDish() {
+        DishModel dishModel = new DishModel();
+        long dishId = 1L;
+        dishModel.setId(dishId);
+
+        dishUseCase.updateDish(dishModel);
+
+        verify(dishPersistencePort).updateDish(dishModel);
     }
 }
