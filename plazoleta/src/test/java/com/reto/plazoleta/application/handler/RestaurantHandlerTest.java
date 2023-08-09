@@ -36,7 +36,7 @@ class RestaurantHandlerTest {
     private RestaurantHandler restaurantHandler;
 
     @Test
-    public void testSaveRestaurant() {
+    void testSaveRestaurant() {
         // Given
         RestaurantRequestDto restaurantRequestDto = new RestaurantRequestDto();
         restaurantRequestDto.setName("My Restaurant");
@@ -62,7 +62,7 @@ class RestaurantHandlerTest {
     }
 
     @Test
-    public void testSaveRestaurantInvalidUser() {
+    void testSaveRestaurantInvalidUser() {
         // Given
         RestaurantRequestDto requestDto = new RestaurantRequestDto();
         requestDto.setIdOwner(1L);
@@ -80,7 +80,7 @@ class RestaurantHandlerTest {
 
 
     @Test
-    public void testSaveRestaurantUserNotFound() {
+    void testSaveRestaurantUserNotFound() {
         RestaurantRequestDto requestDto = new RestaurantRequestDto();
         requestDto.setIdOwner(1L);
 
