@@ -46,7 +46,7 @@ class DishHandlerTest {
         dish.setActive(true);
         dish.setIdRestaurant(5L);
 
-        dishHandler.saveDish(dishRequestDto);
+        dishHandler.saveDish(dishRequestDto, 16L);
 
         verify(dishServicePort).saveDish(dish);
     }
@@ -66,7 +66,7 @@ class DishHandlerTest {
         assertEquals(0, dish.getPrice());
         assertNull(dish.getDescription());
 
-        dishHandler.updateDish(dishUpdateRequestDto);
+        dishHandler.updateDish(dishUpdateRequestDto, 16L);
 
         assertEquals(100, dish.getPrice());
         assertEquals("Una nueva descripción", dish.getDescription());

@@ -5,6 +5,8 @@ import com.reto.plazoleta.infrastructure.out.jpa.entity.RestaurantEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
+import java.util.Optional;
+
 
 @Mapper(componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
@@ -13,6 +15,6 @@ import org.mapstruct.ReportingPolicy;
 public interface IRestaurantEntityMapper {
 
     RestaurantEntity toEntity(RestaurantModel restaurantModel);
-    RestaurantModel toRestaurantModel(RestaurantEntity restaurantEntity);
+    RestaurantModel toRestaurantModel(Optional<RestaurantEntity> restaurantEntity);
 
 }

@@ -6,5 +6,9 @@ import com.reto.plazoleta.domain.model.RestaurantModel;
 public interface IRestaurantServicePort {
 
     void saveRestaurant(RestaurantModel restaurantModel);
+    RestaurantModel getRestaurant(Long id);
+
+    RestaurantModel getRestaurantByIdOwner(Long idOwner);
+
 
 }

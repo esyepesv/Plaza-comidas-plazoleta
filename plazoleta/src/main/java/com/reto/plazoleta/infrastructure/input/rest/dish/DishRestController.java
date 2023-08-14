@@ -46,8 +46,12 @@ public class DishRestController {
             @ApiResponse(responseCode = "404", description = "dish not found", content = @Content)
     })
     @PutMapping("/modificarPlato")
-    public ResponseEntity<Void> updateDish(@RequestBody DishUpdateRequestDto dishUpdateRequestDto) {
-        dishHandler.updateDish(dishUpdateRequestDto);
+    public ResponseEntity<Void> updateDish(
+            @RequestBody DishUpdateRequestDto dishUpdateRequestDto,
+            @RequestHeader("Authorization") String authorizationHeader) {
+        String token = authorizationHeader.substring("Bearer ".length());
+        Long idOwner = jwtService.extractId(token);
+        dishHandler.updateDish(dishUpdateRequestDto, idOwner);
         return ResponseEntity.ok().build();
     }
 }
