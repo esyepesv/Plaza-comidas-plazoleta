@@ -25,14 +25,18 @@ public class DishHandler implements IDishHandler{
     private final IDishServicePort dishServicePort;
     private final IDishRequestMapper dishRequestMapper;
     private final IRestaurantServicePort restaurantServicePort;
+    private final IRestaurantRepository restaurantRepository;
 
 
     @Override
     public void saveDish(DishRequestDto dishRequestDto, Long idOwner) {
         DishModel dish = dishRequestMapper.toDish(dishRequestDto);
         dish.setActive(true);
-        RestaurantModel restaurantModel = restaurantServicePort.getRestaurantByIdOwner(idOwner);
-        Long idRestaurant = restaurantModel.getId();
+
+        RestaurantModel restaurant = restaurantServicePort.getRestaurantByIdOwner(idOwner);
+        //System.out.println(restaurant2.toString());
+
+        Long idRestaurant = restaurant.getId();
         dish.setIdRestaurant(idRestaurant);
         dishServicePort.saveDish(dish);
     }
@@ -43,6 +47,9 @@ public class DishHandler implements IDishHandler{
         DishModel dish = dishServicePort.getDish(dishUpdateRequestDto.getId());
         RestaurantModel restaurantModel = restaurantServicePort.getRestaurantByIdOwner(idOwner);
         Long idRestaurant = restaurantModel.getId();
+
+        System.out.println(restaurantModel.toString());
+        System.out.println(dish.toString());
 
 
         if (dish != null && (Objects.equals(dish.getIdRestaurant(), idRestaurant))) {
@@ -58,4 +65,20 @@ public class DishHandler implements IDishHandler{
             dishServicePort.updateDish(dish);
         }
     }
+
+    @Override
+    public void enableDish(Long id, boolean isActive, Long idOwner) {
+        DishModel dish = dishServicePort.getDish(id);
+        RestaurantModel restaurantModel = restaurantServicePort.getRestaurantByIdOwner(idOwner);
+        Long idRestaurant = restaurantModel.getId();
+
+        System.out.println(restaurantModel.toString());
+        System.out.println(dish.toString());
+
+        if (dish != null && (Objects.equals(dish.getIdRestaurant(), idRestaurant))) {
+            dish.setActive(isActive);
+            dishServicePort.updateDish(dish);
+        }
+    }
+
 }

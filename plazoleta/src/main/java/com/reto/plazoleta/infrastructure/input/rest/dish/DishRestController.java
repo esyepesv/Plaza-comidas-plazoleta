@@ -39,11 +39,9 @@ public class DishRestController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-
     @Operation(summary = "Update dish")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "dish updated", content = @Content),
-            @ApiResponse(responseCode = "404", description = "dish not found", content = @Content)
     })
     @PutMapping("/modificarPlato")
     public ResponseEntity<Void> updateDish(
@@ -52,6 +50,21 @@ public class DishRestController {
         String token = authorizationHeader.substring("Bearer ".length());
         Long idOwner = jwtService.extractId(token);
         dishHandler.updateDish(dishUpdateRequestDto, idOwner);
+        return ResponseEntity.ok().build();
+    }
+
+    @Operation(summary = "Activate/deactivate dish")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "dish updated", content = @Content),
+    })
+    @PutMapping("/habilitacionPlato")
+    public ResponseEntity<Void> enableDish(
+            @RequestParam Long id,
+            @RequestParam boolean isActive,
+            @RequestHeader("Authorization") String authorizationHeader) {
+        String token = authorizationHeader.substring("Bearer ".length());
+        Long idOwner = jwtService.extractId(token);
+        dishHandler.enableDish(id, isActive, idOwner);
         return ResponseEntity.ok().build();
     }
 }

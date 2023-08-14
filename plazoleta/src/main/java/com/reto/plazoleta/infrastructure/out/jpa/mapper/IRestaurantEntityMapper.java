@@ -15,6 +15,5 @@ import java.util.Optional;
 public interface IRestaurantEntityMapper {
 
     RestaurantEntity toEntity(RestaurantModel restaurantModel);
-    RestaurantModel toRestaurantModel(Optional<RestaurantEntity> restaurantEntity);
-
+    RestaurantModel toRestaurant(RestaurantEntity restaurantEntity);
 }

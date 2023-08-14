@@ -7,4 +7,6 @@ public interface IDishHandler {
     void saveDish(DishRequestDto dishRequestDto, Long idOwner);
 
     void updateDish(DishUpdateRequestDto dishUpdateRequestDto, Long idOwner);
+
+    void enableDish(Long id, boolean isActive, Long idOwner);
 }
