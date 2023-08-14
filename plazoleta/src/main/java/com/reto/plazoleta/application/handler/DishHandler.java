@@ -5,9 +5,15 @@ import com.reto.plazoleta.application.dto.request.dish.DishUpdateRequestDto;
 import com.reto.plazoleta.application.mapper.IDishRequestMapper;
 import com.reto.plazoleta.domain.api.IDishServicePort;
 import com.reto.plazoleta.domain.model.DishModel;
+import com.reto.plazoleta.domain.model.RestaurantModel;
+import com.reto.plazoleta.infrastructure.out.jpa.entity.RestaurantEntity;
+import com.reto.plazoleta.infrastructure.out.jpa.mapper.IRestaurantEntityMapper;
+import com.reto.plazoleta.infrastructure.out.jpa.repository.IRestaurantRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,11 +22,17 @@ public class DishHandler implements IDishHandler{
 
     private final IDishServicePort dishServicePort;
     private final IDishRequestMapper dishRequestMapper;
+    private final IRestaurantRepository restaurantRepository;
+    private final IRestaurantEntityMapper restaurantEntityMapper;
+
     @Override
-    public void saveDish(DishRequestDto dishRequestDto) {
+    public void saveDish(DishRequestDto dishRequestDto, Long idOwner) {
         DishModel dish = dishRequestMapper.toDish(dishRequestDto);
         dish.setActive(true);
-        dish.setIdRestaurant(5L); // esto se cambia al agregar autenticacion
+        RestaurantEntity restaurantEntity = restaurantRepository.findByIdOwner(idOwner);
+        RestaurantModel restaurantModel = restaurantEntityMapper.toRestaurantModel(restaurantEntity);
+        Long idRestaurant = restaurantModel.getId();
+        dish.setIdRestaurant(idRestaurant);
         dishServicePort.saveDish(dish);
     }
 

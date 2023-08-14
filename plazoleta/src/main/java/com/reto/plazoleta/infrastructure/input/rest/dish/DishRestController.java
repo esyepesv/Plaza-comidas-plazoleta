@@ -1,5 +1,6 @@
 package com.reto.plazoleta.infrastructure.input.rest.dish;
 
+import com.reto.plazoleta.application.auth.JwtService;
 import com.reto.plazoleta.application.dto.request.dish.DishRequestDto;
 import com.reto.plazoleta.application.dto.request.dish.DishUpdateRequestDto;
 import com.reto.plazoleta.application.handler.IDishHandler;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class DishRestController {
 
     private final IDishHandler dishHandler;
+    private final JwtService jwtService;
 
     @Operation(summary = "Add a new dish")
     @ApiResponses(value = {
@@ -26,10 +28,17 @@ public class DishRestController {
             //@ApiResponse(responseCode = "409", description = "Object already exists", content = @Content)
     })
     @PostMapping("/crearPlato")
-    public ResponseEntity<Void> saveDish(@Validated @RequestBody DishRequestDto dishRequestDto) {
-        dishHandler.saveDish(dishRequestDto);
+    public ResponseEntity<Void> saveDish(
+            @Validated @RequestBody DishRequestDto dishRequestDto,
+            @RequestHeader("Authorization") String authorizationHeader
+    ) {
+        String token = authorizationHeader.substring("Bearer ".length());
+        Long idOwner = jwtService.extractId(token);
+        dishHandler.saveDish(dishRequestDto, idOwner);
+
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
 
     @Operation(summary = "Update dish")
     @ApiResponses(value = {
