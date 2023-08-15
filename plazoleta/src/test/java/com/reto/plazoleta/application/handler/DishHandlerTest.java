@@ -4,15 +4,18 @@ import com.reto.plazoleta.application.dto.request.dish.DishRequestDto;
 import com.reto.plazoleta.application.dto.request.dish.DishUpdateRequestDto;
 import com.reto.plazoleta.application.mapper.IDishRequestMapper;
 import com.reto.plazoleta.domain.api.IDishServicePort;
+import com.reto.plazoleta.domain.api.IRestaurantServicePort;
 import com.reto.plazoleta.domain.model.DishModel;
+import com.reto.plazoleta.domain.model.RestaurantModel;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -21,6 +24,9 @@ class DishHandlerTest {
 
     @Mock
     private IDishServicePort dishServicePort;
+
+    @Mock
+    private IRestaurantServicePort restaurantServicePort;
 
     @Mock
     private IDishRequestMapper dishRequestMapper;
@@ -74,4 +80,24 @@ class DishHandlerTest {
         verify(dishServicePort).updateDish(dish);
     }
 
+    @Test
+    void enableDish() {
+        Long id = 1L;
+        boolean isActive = true;
+        Long idOwner = 2L;
+        DishModel dishModel = new DishModel();
+        dishModel.setId(id);
+        dishModel.setActive(false);
+        dishModel.setIdRestaurant(idOwner);
+        RestaurantModel restaurantModel = new RestaurantModel();
+        restaurantModel.setId(idOwner);
+
+        when(dishServicePort.getDish(id)).thenReturn(dishModel);
+        when(restaurantServicePort.getRestaurantByIdOwner(idOwner)).thenReturn(restaurantModel);
+
+        dishHandler.enableDish(id, isActive, idOwner);
+
+        assertTrue(dishModel.isActive());
+        verify(dishServicePort).updateDish(dishModel);
+    }
 }

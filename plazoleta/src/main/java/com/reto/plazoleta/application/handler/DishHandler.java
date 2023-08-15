@@ -48,9 +48,6 @@ public class DishHandler implements IDishHandler{
         RestaurantModel restaurantModel = restaurantServicePort.getRestaurantByIdOwner(idOwner);
         Long idRestaurant = restaurantModel.getId();
 
-        System.out.println(restaurantModel.toString());
-        System.out.println(dish.toString());
-
 
         if (dish != null && (Objects.equals(dish.getIdRestaurant(), idRestaurant))) {
             int newPrice = dishUpdateRequestDto.getPrice();
@@ -71,9 +68,6 @@ public class DishHandler implements IDishHandler{
         DishModel dish = dishServicePort.getDish(id);
         RestaurantModel restaurantModel = restaurantServicePort.getRestaurantByIdOwner(idOwner);
         Long idRestaurant = restaurantModel.getId();
-
-        System.out.println(restaurantModel.toString());
-        System.out.println(dish.toString());
 
         if (dish != null && (Objects.equals(dish.getIdRestaurant(), idRestaurant))) {
             dish.setActive(isActive);
