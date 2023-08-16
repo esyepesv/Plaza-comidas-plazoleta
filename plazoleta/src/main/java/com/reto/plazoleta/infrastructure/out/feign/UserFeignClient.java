@@ -1,7 +1,7 @@
 package com.reto.plazoleta.infrastructure.out.feign;
 
-import com.reto.plazoleta.application.dto.AuthenticationRequest;
-import com.reto.plazoleta.application.dto.AuthenticationResponse;
+import com.reto.plazoleta.application.dto.request.AuthenticationRequest;
+import com.reto.plazoleta.application.dto.response.AuthenticationResponse;
 import com.reto.plazoleta.application.dto.UserDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;

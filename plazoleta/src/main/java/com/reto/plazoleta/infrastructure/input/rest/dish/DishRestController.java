@@ -3,9 +3,13 @@ package com.reto.plazoleta.infrastructure.input.rest.dish;
 import com.reto.plazoleta.application.auth.JwtService;
 import com.reto.plazoleta.application.dto.request.dish.DishRequestDto;
 import com.reto.plazoleta.application.dto.request.dish.DishUpdateRequestDto;
+import com.reto.plazoleta.application.dto.response.DishResponse;
+import com.reto.plazoleta.application.dto.response.RestaurantResponse;
 import com.reto.plazoleta.application.handler.IDishHandler;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +17,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/platos")
@@ -67,4 +73,9 @@ public class DishRestController {
         dishHandler.enableDish(id, isActive, idOwner);
         return ResponseEntity.ok().build();
     }
+
+
+
+
+
 }

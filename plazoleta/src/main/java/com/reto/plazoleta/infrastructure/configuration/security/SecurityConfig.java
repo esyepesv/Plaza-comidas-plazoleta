@@ -28,6 +28,7 @@ public class SecurityConfig {
                  .antMatchers("/restaurates/crearRestaurante").hasRole("ADMIN")
                  .antMatchers("/restaurates/listarRestaurantes").permitAll()
                  .antMatchers("/platos/**").hasRole("OWNER")
+                 .antMatchers("/pedidos/menu").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

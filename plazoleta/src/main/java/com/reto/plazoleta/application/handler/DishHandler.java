@@ -2,20 +2,21 @@ package com.reto.plazoleta.application.handler;
 
 import com.reto.plazoleta.application.dto.request.dish.DishRequestDto;
 import com.reto.plazoleta.application.dto.request.dish.DishUpdateRequestDto;
+import com.reto.plazoleta.application.dto.response.DishResponse;
 import com.reto.plazoleta.application.mapper.IDishRequestMapper;
+import com.reto.plazoleta.application.mapper.IDishResponseMapper;
 import com.reto.plazoleta.domain.api.IDishServicePort;
 import com.reto.plazoleta.domain.api.IRestaurantServicePort;
 import com.reto.plazoleta.domain.model.DishModel;
 import com.reto.plazoleta.domain.model.RestaurantModel;
-import com.reto.plazoleta.infrastructure.out.jpa.entity.RestaurantEntity;
-import com.reto.plazoleta.infrastructure.out.jpa.mapper.IRestaurantEntityMapper;
-import com.reto.plazoleta.infrastructure.out.jpa.repository.IRestaurantRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,8 +25,8 @@ public class DishHandler implements IDishHandler{
 
     private final IDishServicePort dishServicePort;
     private final IDishRequestMapper dishRequestMapper;
+    private final IDishResponseMapper dishResponseMapper;
     private final IRestaurantServicePort restaurantServicePort;
-    private final IRestaurantRepository restaurantRepository;
 
 
     @Override
@@ -74,5 +75,28 @@ public class DishHandler implements IDishHandler{
             dishServicePort.updateDish(dish);
         }
     }
+
+    @Override
+    public List<DishResponse> getRestaurantDishes(Long idRestaurant, int nElements, String category) {
+        List<DishModel> dishModels = dishServicePort.getRestaurantDishes(idRestaurant);
+
+        // Filter dishes by category if provided
+        if (!category.isBlank()) {
+            dishModels = dishModels.stream()
+                    .filter(dish -> category.equalsIgnoreCase(dish.getCategory()))
+                    .collect(Collectors.toList());
+        }
+
+        // Sort the list by name
+        dishModels.sort(Comparator.comparing(DishModel::getName));
+
+        // Limit the list to the specified number of elements
+        if (nElements > 0 && nElements < dishModels.size()) {
+            dishModels = dishModels.subList(0, nElements);
+        }
+
+        return dishResponseMapper.toResponseList(dishModels);
+    }
+
 
 }
