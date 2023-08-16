@@ -3,9 +3,12 @@ package com.reto.plazoleta.infrastructure.out.jpa.adapter;
 import com.reto.plazoleta.domain.model.RestaurantModel;
 import com.reto.plazoleta.domain.spi.IRestaurantPersistencePort;
 import com.reto.plazoleta.infrastructure.exception.NoDataFoundException;
+import com.reto.plazoleta.infrastructure.out.jpa.entity.RestaurantEntity;
 import com.reto.plazoleta.infrastructure.out.jpa.mapper.IRestaurantEntityMapper;
 import com.reto.plazoleta.infrastructure.out.jpa.repository.IRestaurantRepository;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 public class RestaurantJpaAdapter implements IRestaurantPersistencePort {
@@ -29,6 +32,15 @@ public class RestaurantJpaAdapter implements IRestaurantPersistencePort {
         return restaurantEntityMapper.toRestaurant(restaurantRepository.findByIdOwner(idOwner).orElseThrow(NoDataFoundException::new));
     }
 
+    @Override
+    public List<RestaurantModel> getAllRestaurants() {
+        List<RestaurantEntity> restaurantEntityList = restaurantRepository.findAll();
+
+        if (restaurantEntityList.isEmpty()){
+            throw new NoDataFoundException();
+        }
+        return restaurantEntityMapper.toRestaurantList(restaurantEntityList);
+    }
 
 
 }

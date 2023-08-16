@@ -1,16 +1,13 @@
 package com.reto.plazoleta.application.dto.request.restaurant;
 
 import com.reto.plazoleta.application.validation.NotNumericOnly;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
-@Setter
-@Getter
+@Data
 public class RestaurantRequestDto {
 
     private Long id;
