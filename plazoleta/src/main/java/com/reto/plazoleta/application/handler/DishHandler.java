@@ -80,17 +80,14 @@ public class DishHandler implements IDishHandler{
     public List<DishResponse> getRestaurantDishes(Long idRestaurant, int nElements, String category) {
         List<DishModel> dishModels = dishServicePort.getRestaurantDishes(idRestaurant);
 
-        // Filter dishes by category if provided
         if (!category.isBlank()) {
             dishModels = dishModels.stream()
                     .filter(dish -> category.equalsIgnoreCase(dish.getCategory()))
                     .collect(Collectors.toList());
         }
 
-        // Sort the list by name
         dishModels.sort(Comparator.comparing(DishModel::getName));
 
-        // Limit the list to the specified number of elements
         if (nElements > 0 && nElements < dishModels.size()) {
             dishModels = dishModels.subList(0, nElements);
         }

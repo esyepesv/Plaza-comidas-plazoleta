@@ -2,7 +2,9 @@ package com.reto.plazoleta.application.handler;
 
 import com.reto.plazoleta.application.dto.request.dish.DishRequestDto;
 import com.reto.plazoleta.application.dto.request.dish.DishUpdateRequestDto;
+import com.reto.plazoleta.application.dto.response.DishResponse;
 import com.reto.plazoleta.application.mapper.IDishRequestMapper;
+import com.reto.plazoleta.application.mapper.IDishResponseMapper;
 import com.reto.plazoleta.domain.api.IDishServicePort;
 import com.reto.plazoleta.domain.api.IRestaurantServicePort;
 import com.reto.plazoleta.domain.model.DishModel;
@@ -13,7 +15,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
@@ -30,6 +35,9 @@ class DishHandlerTest {
 
     @Mock
     private IDishRequestMapper dishRequestMapper;
+
+    @Mock
+    private IDishResponseMapper dishResponseMapper;
 
     @InjectMocks
     private DishHandler dishHandler;
@@ -100,4 +108,23 @@ class DishHandlerTest {
         assertTrue(dishModel.isActive());
         verify(dishServicePort).updateDish(dishModel);
     }
+
+    @Test
+    void getRestaurantDishesNoCategory() {
+        Long idRestaurant = 1L;
+        int nElements = 5;
+        String category = "";
+
+        List<DishModel> dishModels = new ArrayList<>();
+        when(dishServicePort.getRestaurantDishes(idRestaurant)).thenReturn(dishModels);
+
+        List<DishResponse> expectedResponses = new ArrayList<>();
+        when(dishResponseMapper.toResponseList(dishModels)).thenReturn(expectedResponses);
+
+        List<DishResponse> actualResponses = dishHandler.getRestaurantDishes(idRestaurant, nElements, category);
+
+        assertEquals(expectedResponses, actualResponses);
+        verify(dishResponseMapper).toResponseList(dishModels);
+    }
+
 }
