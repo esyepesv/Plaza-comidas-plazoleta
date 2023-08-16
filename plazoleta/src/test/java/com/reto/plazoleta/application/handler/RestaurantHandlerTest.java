@@ -2,9 +2,11 @@ package com.reto.plazoleta.application.handler;
 
 import com.reto.plazoleta.application.dto.UserDto;
 import com.reto.plazoleta.application.dto.request.restaurant.RestaurantRequestDto;
+import com.reto.plazoleta.application.dto.response.RestaurantResponse;
 import com.reto.plazoleta.application.exception.InvalidUserRoleException;
 import com.reto.plazoleta.application.exception.UserNotFoundException;
 import com.reto.plazoleta.application.mapper.IRestaurantRequestMapper;
+import com.reto.plazoleta.application.mapper.IRestaurantResponseMapper;
 import com.reto.plazoleta.domain.api.IRestaurantServicePort;
 import com.reto.plazoleta.domain.model.RestaurantModel;
 import com.reto.plazoleta.infrastructure.out.feign.UserFeignClient;
@@ -15,6 +17,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -27,6 +32,9 @@ class RestaurantHandlerTest {
 
     @Mock
     private IRestaurantRequestMapper restaurantRequestMapper;
+
+    @Mock
+    private IRestaurantResponseMapper restaurantResponseMapper;
 
     @Mock
     private UserFeignClient userFeignClient;
@@ -90,4 +98,31 @@ class RestaurantHandlerTest {
         });
     }
 
+    @Test
+    void getAllRestaurants() {
+        int nElements = 5;
+
+        List<RestaurantModel> restaurantModels = new ArrayList<>();
+        for (int i = 1; i <= nElements; i++) {
+            RestaurantModel restaurantModel = new RestaurantModel();
+            restaurantModel.setName("Restaurant " + i);
+            restaurantModels.add(restaurantModel);
+        }
+
+        when(restaurantServicePort.getAllRestaurants()).thenReturn(restaurantModels);
+
+        List<RestaurantResponse> expectedResponses = new ArrayList<>();
+        for (int i = 1; i <= nElements; i++) {
+            RestaurantResponse response = new RestaurantResponse();
+            response.setName("Restaurant " + i);
+            expectedResponses.add(response);
+        }
+
+        when(restaurantResponseMapper.toResposeList(restaurantModels)).thenReturn(expectedResponses);
+
+        List<RestaurantResponse> actualResponses = restaurantHandler.getAllRestaurants(nElements);
+
+        assertEquals(nElements, actualResponses.size());
+        assertEquals(expectedResponses, actualResponses);
+    }
 }
