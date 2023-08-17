@@ -14,8 +14,8 @@ public interface IOrderRequestMapper {
 
     OrderModel toOrder(OrderDto orderDto);
 
-    @Mapping(source = "orderDto.orderDishes.idDish", target = "idDish")
+  /*  @Mapping(source = "orderDto.orderDishes.idDish", target = "idDish")
     @Mapping(source = "orderDto.orderDishes.number", target = "number")
     OrderDishModel toOrderDish(OrderDto orderDto);
-
+*/
 }

@@ -21,9 +21,8 @@ public class OrderHandler implements IOrderHandler{
 
     @Override
     public void saveOrder(OrderDto orderDto) {
-        OrderDishModel orderDish = orderDishServicePort.saveOrderDish(orderRequestMapper.toOrderDish(orderDto));
         OrderModel order = orderRequestMapper.toOrder(orderDto);
-        order.setOrderDishesId(orderDish.getId());
-        orderServicePort.saveOrder(order);
+        System.out.println(order.toString());
+        //orderServicePort.saveOrder(order);
     }
 }

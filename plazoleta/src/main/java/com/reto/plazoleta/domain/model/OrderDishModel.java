@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class OrderDishModel {
 
     private Long id;
+    private Long orderId;
     private Long idDish;
     private Integer number;
 }

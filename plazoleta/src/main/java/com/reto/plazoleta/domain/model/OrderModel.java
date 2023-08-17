@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 
 @AllArgsConstructor
@@ -12,10 +13,11 @@ import java.util.List;
 @Data
 public class OrderModel {
 
-    private Long idOrder;
+    private Long id;
     private Long idRestaurant;
     private Long idClient;
-    private Long orderDishesId;
+    private Long idChef;
+    private Date date;
     private State state;
 
 }
