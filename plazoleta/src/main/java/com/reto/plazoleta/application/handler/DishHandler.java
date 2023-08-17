@@ -35,7 +35,6 @@ public class DishHandler implements IDishHandler{
         dish.setActive(true);
 
         RestaurantModel restaurant = restaurantServicePort.getRestaurantByIdOwner(idOwner);
-        //System.out.println(restaurant2.toString());
 
         Long idRestaurant = restaurant.getId();
         dish.setIdRestaurant(idRestaurant);

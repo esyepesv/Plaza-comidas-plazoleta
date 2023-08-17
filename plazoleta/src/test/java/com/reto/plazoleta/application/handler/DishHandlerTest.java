@@ -58,9 +58,12 @@ class DishHandlerTest {
 
         DishModel dish = dishRequestMapper.toDish(dishRequestDto);
         dish.setActive(true);
-        dish.setIdRestaurant(5L);
+        dish.setIdRestaurant(19L);
 
-        dishHandler.saveDish(dishRequestDto, 16L);
+        RestaurantModel restaurant = new RestaurantModel();
+        when(restaurantServicePort.getRestaurantByIdOwner(31L)).thenReturn(restaurant);
+
+        dishHandler.saveDish(dishRequestDto, 31L);
 
         verify(dishServicePort).saveDish(dish);
     }
@@ -68,7 +71,7 @@ class DishHandlerTest {
     @Test
     void updateDish() {
         DishUpdateRequestDto dishUpdateRequestDto = new DishUpdateRequestDto();
-        dishUpdateRequestDto.setId(1L);
+        dishUpdateRequestDto.setId(33L);
         dishUpdateRequestDto.setPrice(100);
         dishUpdateRequestDto.setDescription("Una nueva descripción");
 
@@ -80,7 +83,10 @@ class DishHandlerTest {
         assertEquals(0, dish.getPrice());
         assertNull(dish.getDescription());
 
-        dishHandler.updateDish(dishUpdateRequestDto, 16L);
+        RestaurantModel restaurant = new RestaurantModel();
+        when(restaurantServicePort.getRestaurantByIdOwner(31L)).thenReturn(restaurant);
+
+        dishHandler.updateDish(dishUpdateRequestDto, 31L);
 
         assertEquals(100, dish.getPrice());
         assertEquals("Una nueva descripción", dish.getDescription());

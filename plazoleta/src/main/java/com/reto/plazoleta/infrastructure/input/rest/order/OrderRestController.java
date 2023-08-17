@@ -1,5 +1,7 @@
 package com.reto.plazoleta.infrastructure.input.rest.order;
 
+import com.reto.plazoleta.application.auth.JwtService;
+import com.reto.plazoleta.application.dto.request.order.OrderDto;
 import com.reto.plazoleta.application.dto.response.DishResponse;
 import com.reto.plazoleta.application.dto.response.RestaurantResponse;
 import com.reto.plazoleta.application.handler.IDishHandler;
@@ -10,11 +12,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,7 +22,10 @@ import java.util.List;
 @RequestMapping("/pedidos")
 @RequiredArgsConstructor
 public class OrderRestController {
+
     private final IDishHandler dishHandler;
+    private final JwtService jwtService;
+
     @Operation(summary = "Get all restaurant´s dishes")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "All dishes returned",
@@ -37,5 +40,15 @@ public class OrderRestController {
             @RequestParam String category
     ){
         return ResponseEntity.ok(dishHandler.getRestaurantDishes(idRestaurant, nElements, category));
+    }
+
+    @PostMapping("/realizarPedido")
+    public ResponseEntity<Void> makeOrder(@RequestBody OrderDto order,
+                                          @RequestHeader("Authorization") String authorizationHeader) {
+        String token = authorizationHeader.substring("Bearer ".length());
+        Long idClient = jwtService.extractId(token);
+        order.setIdClient(idClient);
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
