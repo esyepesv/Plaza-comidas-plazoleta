@@ -1,10 +1,11 @@
 package com.reto.plazoleta.infrastructure.input.rest.order;
 
-import com.reto.plazoleta.application.auth.JwtService;
 import com.reto.plazoleta.application.dto.request.order.OrderDto;
 import com.reto.plazoleta.application.dto.response.DishResponse;
 import com.reto.plazoleta.application.dto.response.RestaurantResponse;
 import com.reto.plazoleta.application.handler.IDishHandler;
+import com.reto.plazoleta.application.handler.IOrderHandler;
+import com.reto.plazoleta.infrastructure.configuration.security.JwtService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -24,6 +25,7 @@ import java.util.List;
 public class OrderRestController {
 
     private final IDishHandler dishHandler;
+    private final IOrderHandler orderHandler;
     private final JwtService jwtService;
 
     @Operation(summary = "Get all restaurant´s dishes")
@@ -48,6 +50,8 @@ public class OrderRestController {
         String token = authorizationHeader.substring("Bearer ".length());
         Long idClient = jwtService.extractId(token);
         order.setIdClient(idClient);
+
+        orderHandler.saveOrder(order);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

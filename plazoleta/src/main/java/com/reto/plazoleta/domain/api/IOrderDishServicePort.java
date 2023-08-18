@@ -2,6 +2,9 @@ package com.reto.plazoleta.domain.api;
 
 import com.reto.plazoleta.domain.model.OrderDishModel;
 
+import java.util.List;
+
 public interface IOrderDishServicePort {
-    OrderDishModel saveOrderDish(OrderDishModel orderDish);
+    void saveOrderDish(OrderDishModel orderDish);
+    void saveOrderDish(List<OrderDishModel> orderDish);
 }

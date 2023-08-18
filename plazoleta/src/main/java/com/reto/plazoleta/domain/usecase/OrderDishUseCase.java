@@ -4,6 +4,8 @@ import com.reto.plazoleta.domain.api.IOrderDishServicePort;
 import com.reto.plazoleta.domain.model.OrderDishModel;
 import com.reto.plazoleta.domain.spi.IOrderDishPersistencePort;
 
+import java.util.List;
+
 public class OrderDishUseCase implements IOrderDishServicePort {
 
     private final IOrderDishPersistencePort orderDishPersistencePort;
@@ -13,7 +15,12 @@ public class OrderDishUseCase implements IOrderDishServicePort {
     }
 
     @Override
-    public OrderDishModel saveOrderDish(OrderDishModel orderDish) {
-        return orderDishPersistencePort.saveOrderDish(orderDish);
+    public void saveOrderDish(OrderDishModel orderDish) {
+        orderDishPersistencePort.saveOrderDish(orderDish);
+    }
+
+    @Override
+    public void saveOrderDish(List<OrderDishModel> orderDish) {
+        orderDishPersistencePort.saveOrderDish(orderDish);
     }
 }
