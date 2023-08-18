@@ -1,4 +1,4 @@
-package com.reto.plazoleta.application.auth;
+package com.reto.plazoleta.infrastructure.configuration.security;
 
 //import com.users.users.domain.model.Role;
 //import com.users.users.infrastructure.output.jpa.entity.UserEntity;
