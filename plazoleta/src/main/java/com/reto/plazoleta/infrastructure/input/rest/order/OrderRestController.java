@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/pedidos")
+@RequestMapping("/orders")
 @RequiredArgsConstructor
 public class OrderRestController {
 
@@ -33,7 +33,6 @@ public class OrderRestController {
             @ApiResponse(responseCode = "200", description = "All dishes returned",
                     content = @Content(mediaType = "application/json",
                             array = @ArraySchema(schema = @Schema(implementation = RestaurantResponse.class)))),
-            //@ApiResponse(responseCode = "404", description = "No data found", content = @Content)
     })
     @GetMapping("/menu")
     public ResponseEntity<List<DishResponse>> getRestaurantDishes(
@@ -44,7 +43,7 @@ public class OrderRestController {
         return ResponseEntity.ok(dishHandler.getRestaurantDishes(idRestaurant, nElements, category));
     }
 
-    @PostMapping("/realizarPedido")
+    @PostMapping("/make-order")
     public ResponseEntity<Void> makeOrder(@RequestBody OrderDto order,
                                           @RequestHeader("Authorization") String authorizationHeader) {
         String token = authorizationHeader.substring("Bearer ".length());

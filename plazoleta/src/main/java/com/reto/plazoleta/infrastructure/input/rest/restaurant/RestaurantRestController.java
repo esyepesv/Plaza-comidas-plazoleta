@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/restaurantes")
+@RequestMapping("/restaurants")
 @RequiredArgsConstructor
 public class RestaurantRestController {
 
@@ -28,9 +28,8 @@ public class RestaurantRestController {
     @Operation(summary = "Add a new restaurant")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Object created", content = @Content),
-            //@ApiResponse(responseCode = "409", description = "Object already exists", content = @Content)
     })
-    @PostMapping("/crearRestaurante")
+    @PostMapping("/create-restaurant")
     public ResponseEntity<Void> saveRestaurant(@Validated @RequestBody RestaurantRequestDto restaurantRequestDto) {
         restaurantHandler.saveRestaurant(restaurantRequestDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -43,7 +42,7 @@ public class RestaurantRestController {
                             array = @ArraySchema(schema = @Schema(implementation = RestaurantResponse.class)))),
             //@ApiResponse(responseCode = "404", description = "No data found", content = @Content)
     })
-    @GetMapping("/listarRestaurantes")
+    @GetMapping("/get-all")
     public ResponseEntity<List<RestaurantResponse>> getAllRestaurants(@RequestParam int nElements) {
         return ResponseEntity.ok(restaurantHandler.getAllRestaurants(nElements));
     }

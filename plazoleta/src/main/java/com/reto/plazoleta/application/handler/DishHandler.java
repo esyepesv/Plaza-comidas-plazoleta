@@ -85,7 +85,10 @@ public class DishHandler implements IDishHandler{
                     .collect(Collectors.toList());
         }
 
-        dishModels.sort(Comparator.comparing(DishModel::getName));
+        dishModels = dishModels.stream()
+                .filter(DishModel::isActive)
+                .sorted(Comparator.comparing(DishModel::getName))
+                .collect(Collectors.toList());
 
         if (nElements > 0 && nElements < dishModels.size()) {
             dishModels = dishModels.subList(0, nElements);

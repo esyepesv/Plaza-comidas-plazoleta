@@ -15,24 +15,24 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/platos")
+@RequestMapping("/dishes")
 @RequiredArgsConstructor
 public class DishRestController {
 
     private final IDishHandler dishHandler;
     private final JwtService jwtService;
+    int tokenStart = 7;
 
     @Operation(summary = "Add a new dish")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Dish created", content = @Content),
-            //@ApiResponse(responseCode = "409", description = "Object already exists", content = @Content)
     })
-    @PostMapping("/crearPlato")
+    @PostMapping("/create-dish")
     public ResponseEntity<Void> saveDish(
             @Validated @RequestBody DishRequestDto dishRequestDto,
             @RequestHeader("Authorization") String authorizationHeader
     ) {
-        String token = authorizationHeader.substring("Bearer ".length());
+        String token = authorizationHeader.substring(tokenStart);
         Long idOwner = jwtService.extractId(token);
         dishHandler.saveDish(dishRequestDto, idOwner);
 
@@ -43,11 +43,11 @@ public class DishRestController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "dish updated", content = @Content),
     })
-    @PutMapping("/modificarPlato")
+    @PutMapping("/update-dish")
     public ResponseEntity<Void> updateDish(
             @RequestBody DishUpdateRequestDto dishUpdateRequestDto,
             @RequestHeader("Authorization") String authorizationHeader) {
-        String token = authorizationHeader.substring("Bearer ".length());
+        String token = authorizationHeader.substring(tokenStart);
         Long idOwner = jwtService.extractId(token);
         dishHandler.updateDish(dishUpdateRequestDto, idOwner);
         return ResponseEntity.ok().build();
@@ -57,12 +57,12 @@ public class DishRestController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "dish updated", content = @Content),
     })
-    @PutMapping("/habilitacionPlato")
+    @PutMapping("/enable-dish")
     public ResponseEntity<Void> enableDish(
             @RequestParam Long id,
             @RequestParam boolean isActive,
             @RequestHeader("Authorization") String authorizationHeader) {
-        String token = authorizationHeader.substring("Bearer ".length());
+        String token = authorizationHeader.substring(tokenStart);
         Long idOwner = jwtService.extractId(token);
         dishHandler.enableDish(id, isActive, idOwner);
         return ResponseEntity.ok().build();

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(name = "users", url = "localhost:8081")
 public interface UserFeignClient {
-    @GetMapping(value = "/usuarios/{userId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/users/{userId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<UserDto> getUser(@PathVariable Long userId);
 
     @PostMapping(value = "/auth/authenticate", consumes = MediaType.APPLICATION_JSON_VALUE)
