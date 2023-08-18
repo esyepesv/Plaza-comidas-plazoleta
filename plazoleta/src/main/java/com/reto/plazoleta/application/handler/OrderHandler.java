@@ -7,10 +7,12 @@ import com.reto.plazoleta.domain.api.IOrderDishServicePort;
 import com.reto.plazoleta.domain.api.IOrderServicePort;
 import com.reto.plazoleta.domain.model.OrderDishModel;
 import com.reto.plazoleta.domain.model.OrderModel;
+import com.reto.plazoleta.domain.model.State;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -26,8 +28,14 @@ public class OrderHandler implements IOrderHandler{
     public void saveOrder(OrderDto orderDto) {
         OrderModel order = orderRequestMapper.toOrder(orderDto);
         List<OrderDishModel> orderDishes= orderRequestMapper.toOrderDishList(orderDto.getOrderDishes());
+
+        order.setState(State.PENDIENTE);
+        order.setDate(new Date());
+
         order = orderServicePort.saveOrder(order);
-        for(OrderDishModel orderDish: orderDishes) orderDish.setOrderId(order.getId());
+        for(OrderDishModel orderDish: orderDishes) {
+            orderDish.setOrderId(order.getId());
+        }
         orderDishServicePort.saveOrderDish(orderDishes);
     }
 }

@@ -58,9 +58,6 @@ class DishHandlerTest {
         when(dishRequestMapper.toDish(dishRequestDto)).thenReturn(dishModel);
         when(restaurantServicePort.getRestaurantByIdOwner(16L)).thenReturn(restaurantModel);
 
-        RestaurantModel restaurantModel = new RestaurantModel();
-        when(restaurantServicePort.getRestaurantByIdOwner(16L)).thenReturn(restaurantModel);
-
         DishModel dish = dishRequestMapper.toDish(dishRequestDto);
         dish.setActive(true);
         dish.setIdRestaurant(19L);
