@@ -12,5 +12,6 @@ public class OrderDishModel {
     private Long id;
     private Long orderId;
     private Long idDish;
+    private String name;
     private Integer number;
 }

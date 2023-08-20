@@ -26,7 +26,7 @@ public class SecurityConfig {
                 .disable()
                 .authorizeHttpRequests()
                  .antMatchers("/restaurants/get-all").permitAll()
-                 .antMatchers("/orders/menu").permitAll()
+                 .antMatchers("/orders/**").permitAll()
                  .antMatchers("/swagger-ui/**").permitAll()
                  .antMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
                  .antMatchers("/dishes/**").hasRole("OWNER")

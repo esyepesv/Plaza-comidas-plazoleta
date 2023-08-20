@@ -23,4 +23,9 @@ public class OrderDishUseCase implements IOrderDishServicePort {
     public void saveOrderDish(List<OrderDishModel> orderDish) {
         orderDishPersistencePort.saveOrderDish(orderDish);
     }
+
+    @Override
+    public List<OrderDishModel> getOrderDishes(Long idOrder) {
+        return orderDishPersistencePort.getOrderDishes(idOrder);
+    }
 }

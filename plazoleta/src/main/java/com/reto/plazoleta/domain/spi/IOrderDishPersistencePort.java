@@ -8,4 +8,5 @@ public interface IOrderDishPersistencePort {
     void saveOrderDish(List<OrderDishModel> orderDish);
 
     void saveOrderDish(OrderDishModel orderDish);
+    List<OrderDishModel> getOrderDishes(Long idOrder);
 }

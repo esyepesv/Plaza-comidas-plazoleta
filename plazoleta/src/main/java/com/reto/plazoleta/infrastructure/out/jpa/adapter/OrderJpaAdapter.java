@@ -6,6 +6,8 @@ import com.reto.plazoleta.infrastructure.out.jpa.mapper.IOrderEntityMapper;
 import com.reto.plazoleta.infrastructure.out.jpa.repository.IOrderRepository;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 public class OrderJpaAdapter implements IOrderPersistencePort {
 
@@ -15,5 +17,10 @@ public class OrderJpaAdapter implements IOrderPersistencePort {
     @Override
     public OrderModel saveOrder(OrderModel order) {
         return orderEntityMapper.toOrder(orderRepository.save(orderEntityMapper.toEntity(order)));
+    }
+
+    @Override
+    public List<OrderModel> getRestaurantOrders(Long idRestaurant) {
+        return orderEntityMapper.toOrderList(orderRepository.findByIdRestaurant(idRestaurant));
     }
 }

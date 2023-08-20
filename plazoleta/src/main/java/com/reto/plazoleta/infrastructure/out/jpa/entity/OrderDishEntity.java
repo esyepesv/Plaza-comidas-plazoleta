@@ -17,10 +17,10 @@ public class OrderDishEntity {
     private Long id;
 
     private Long idDish;
-
+    private String name;
     private Integer number;
 
     @Column(name = "order_id")
-    private Integer orderId;
+    private Long orderId;
 
 }
