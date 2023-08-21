@@ -104,4 +104,19 @@ class OrderHandlerTest {
         }
 
     }
+
+    @Test
+    void takeOrder() {
+        Long idOrder = 1L;
+        Long idEmployee = 2L;
+
+        OrderModel mockOrder = new OrderModel(1L, null, null, null, null, State.PENDIENTE);
+        when(orderServicePort.getOrder(idOrder)).thenReturn(mockOrder);
+
+        orderHandler.takeOrder(idOrder, idEmployee);
+
+        verify(orderServicePort).saveOrder(mockOrder);
+        assertEquals(State.EN_PREPARACION, mockOrder.getState());
+    }
+
 }
