@@ -1,5 +1,7 @@
 package com.reto.plazoleta.application.handler;
 
+import com.reto.plazoleta.application.dto.UserDto;
+import com.reto.plazoleta.application.dto.request.SMSSendRequest;
 import com.reto.plazoleta.application.dto.request.order.OrderDto;
 import com.reto.plazoleta.application.dto.response.order.OrderResponse;
 import com.reto.plazoleta.application.mapper.IOrderRequestMapper;
@@ -11,8 +13,12 @@ import com.reto.plazoleta.domain.model.DishModel;
 import com.reto.plazoleta.domain.model.OrderDishModel;
 import com.reto.plazoleta.domain.model.OrderModel;
 import com.reto.plazoleta.domain.model.State;
+import com.reto.plazoleta.infrastructure.exception.NoDataFoundException;
+import com.reto.plazoleta.infrastructure.out.feign.MessageFeignClient;
+import com.reto.plazoleta.infrastructure.out.feign.UserFeignClient;
 import com.reto.plazoleta.infrastructure.out.jpa.repository.IOrderDishRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +37,8 @@ public class OrderHandler implements IOrderHandler{
     private final IOrderRequestMapper orderRequestMapper;
     private final IOrderResponseMapper orderResponseMapper;
     private final IDishServicePort dishServicePort;
+    private final MessageFeignClient messageFeignClient;
+    private final UserFeignClient userFeignClient;
 
     @Override
     public void saveOrder(OrderDto orderDto) {
@@ -77,6 +85,19 @@ public class OrderHandler implements IOrderHandler{
         order.setIdChef(idEmployee);
         order.setState(State.EN_PREPARACION);
         orderServicePort.saveOrder(order);
+    }
+
+    @Override
+    public void markAsReady(Long idOrder, String pin) {
+        OrderModel order = orderServicePort.getOrder(idOrder);
+        order.setState(State.LISTO);
+        orderServicePort.saveOrder(order);
+        ResponseEntity<UserDto> response = userFeignClient.getUser(order.getIdClient());
+        if(response.getStatusCode().is2xxSuccessful()){
+            UserDto client = response.getBody();
+            messageFeignClient.process(new SMSSendRequest(client.getPhone(), "Pin: " +pin));
+        }
+        else throw new NoDataFoundException();
     }
 
 

@@ -90,6 +90,19 @@ public class OrderRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @Operation(summary = "Mark order as ready and send notification")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "order set as ready", content = @Content),
+    })
+    @PutMapping("/mark-as-ready")
+    public ResponseEntity<Void> markAsReady(@RequestParam Long idOrder, @RequestParam String pin){
+
+        orderHandler.markAsReady(idOrder, pin);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
 
 
 }

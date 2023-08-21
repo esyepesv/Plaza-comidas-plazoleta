@@ -12,4 +12,6 @@ public interface IOrderHandler {
     List<OrderResponse> getRestaurantOrders(Long idRestaurant, int nElements, State state);
 
     void takeOrder(Long idOrder, Long idEmployee);
+
+    void markAsReady(Long idOrder, String pin);
 }
