@@ -75,7 +75,10 @@ public class OrderRestController {
         return ResponseEntity.ok(orderHandler.getRestaurantOrders(idRestaurant, nElements, state));
     }
 
-
+    @Operation(summary = "Take order and change state")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "order taken", content = @Content),
+    })
     @PutMapping("/take-order")
     public ResponseEntity<Void> takeOrder(@RequestParam Long idOrder,
                                           @RequestHeader("Authorization") String authorizationHeader) {
@@ -85,9 +88,7 @@ public class OrderRestController {
         orderHandler.takeOrder(idOrder, idEmployee);
 
         return new ResponseEntity<>(HttpStatus.OK);
-
     }
-
 
 
 
