@@ -23,4 +23,14 @@ public class OrderUseCase implements IOrderServicePort {
     public List<OrderModel> getRestaurantOrders(Long idRestaurant) {
         return orderPersistencePort.getRestaurantOrders(idRestaurant);
     }
+
+    @Override
+    public OrderModel getOrder(Long idOrder) {
+        return orderPersistencePort.getOrder(idOrder);
+    }
+
+    @Override
+    public void updateOrder(OrderModel order) {
+        orderPersistencePort.updateOrder(order);
+    }
 }

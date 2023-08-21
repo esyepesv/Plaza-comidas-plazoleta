@@ -60,7 +60,12 @@ public class OrderRestController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-
+    @Operation(summary = "Get all restaurant´s orders")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "All orders returned",
+                    content = @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = OrderResponse.class)))),
+    })
     @GetMapping("/get-restaurants-orders")
     public ResponseEntity<List<OrderResponse>> getRestaurantsOrders(
             @RequestParam Long idRestaurant,
@@ -69,5 +74,21 @@ public class OrderRestController {
     ) {
         return ResponseEntity.ok(orderHandler.getRestaurantOrders(idRestaurant, nElements, state));
     }
+
+
+    @PutMapping("/take-order")
+    public ResponseEntity<Void> takeOrder(@RequestParam Long idOrder,
+                                          @RequestHeader("Authorization") String authorizationHeader) {
+        String token = authorizationHeader.substring("Bearer ".length());
+        Long idEmployee = jwtService.extractId(token);
+
+        orderHandler.takeOrder(idOrder, idEmployee);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
+    }
+
+
+
 
 }

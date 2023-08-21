@@ -31,7 +31,6 @@ public class OrderHandler implements IOrderHandler{
     private final IOrderRequestMapper orderRequestMapper;
     private final IOrderResponseMapper orderResponseMapper;
     private final IDishServicePort dishServicePort;
-    private final IOrderDishRepository orderDishRepository;
 
     @Override
     public void saveOrder(OrderDto orderDto) {
@@ -72,7 +71,13 @@ public class OrderHandler implements IOrderHandler{
         return filteredResponse;
     }
 
-
+    @Override
+    public void takeOrder(Long idOrder, Long idEmployee) {
+        OrderModel order = orderServicePort.getOrder(idOrder);
+        order.setIdChef(idEmployee);
+        order.setState(State.EN_PREPARACION);
+        orderServicePort.saveOrder(order);
+    }
 
 
 }

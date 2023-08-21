@@ -10,4 +10,7 @@ public interface IOrderServicePort {
 
     List<OrderModel> getRestaurantOrders(Long idRestaurant);
 
+    OrderModel getOrder(Long idOrder);
+
+    void updateOrder(OrderModel order);
 }
