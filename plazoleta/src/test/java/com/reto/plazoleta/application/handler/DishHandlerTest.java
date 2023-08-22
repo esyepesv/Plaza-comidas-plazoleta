@@ -21,6 +21,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -56,7 +57,7 @@ class DishHandlerTest {
         RestaurantModel restaurantModel = new RestaurantModel();
 
         when(dishRequestMapper.toDish(dishRequestDto)).thenReturn(dishModel);
-        when(restaurantServicePort.getRestaurantByIdOwner(16L)).thenReturn(restaurantModel);
+        when(restaurantServicePort.getRestaurantByIdOwner(anyLong())).thenReturn(restaurantModel);
 
         DishModel dish = dishRequestMapper.toDish(dishRequestDto);
         dish.setActive(true);
@@ -81,7 +82,7 @@ class DishHandlerTest {
         when(dishServicePort.getDish(dishUpdateRequestDto.getId())).thenReturn(dishModel);
 
         RestaurantModel restaurantModel = new RestaurantModel();
-        when(restaurantServicePort.getRestaurantByIdOwner(16L)).thenReturn(restaurantModel);
+        when(restaurantServicePort.getRestaurantByIdOwner(anyLong())).thenReturn(restaurantModel);
 
         DishModel dish = dishServicePort.getDish(dishUpdateRequestDto.getId());
 
