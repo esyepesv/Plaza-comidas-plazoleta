@@ -16,4 +16,6 @@ public interface IOrderHandler {
     void markAsReady(Long idOrder);
 
     void deliver(Long idOrder, int pin);
+
+    String cancelOrder(Long idClient);
 }

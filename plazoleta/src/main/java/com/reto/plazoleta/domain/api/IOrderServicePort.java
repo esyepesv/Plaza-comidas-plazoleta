@@ -13,4 +13,6 @@ public interface IOrderServicePort {
     OrderModel getOrder(Long idOrder);
 
     void updateOrder(OrderModel order);
+
+    OrderModel getOrderByIdClient(Long idClient);
 }

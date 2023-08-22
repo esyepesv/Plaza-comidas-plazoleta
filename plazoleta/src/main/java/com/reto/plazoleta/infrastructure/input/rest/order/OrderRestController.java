@@ -114,7 +114,19 @@ public class OrderRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @Operation(summary = "Cancel order")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "order canceled", content = @Content),
+    })
+    @PutMapping("/cancel")
+    public ResponseEntity<String> cancerOrder(@RequestHeader("Authorization") String authorizationHeader) {
+        String token = authorizationHeader.substring("Bearer ".length());
+        Long idClient = jwtService.extractId(token);
 
+       String response = orderHandler.cancelOrder(idClient);
+
+        return ResponseEntity.ok(response);
+    }
 
 
 }

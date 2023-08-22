@@ -118,5 +118,18 @@ public class OrderHandler implements IOrderHandler{
 
     }
 
+    @Override
+    public String cancelOrder(Long idClient) {
+        OrderModel order = orderServicePort.getOrderByIdClient(idClient);
+        if (order.getState().equals(State.PENDIENTE)){
+            order.setState(State.CANCELADO);
+            orderServicePort.updateOrder(order);
+            return "Orden Cancelada";
+        } else if (order.getState().equals(State.CANCELADO)) {
+            return "Su pedido ya ha sido cancelado";
+        }
+        return "Lo sentimos, tu pedido ya esta en preparacion y no puede cancelarse";
+    }
+
 
 }

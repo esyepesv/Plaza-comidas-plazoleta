@@ -32,6 +32,7 @@ public class SecurityConfig {
                  .antMatchers("/dishes/**").hasRole("OWNER")
                  .antMatchers("/restaurants/create-restaurant").hasRole("ADMIN")
                  .antMatchers("/orders/make-order").hasRole("CLIENT")
+                 .antMatchers("/orders/cancel").hasRole("CLIENT")
                  .antMatchers("/orders/get-restaurants-orders").hasRole("EMPLOYEE")
                  .antMatchers("/orders/mark-as-ready").hasRole("EMPLOYEE")
                  .antMatchers("/orders/deliver").hasRole("EMPLOYEE")

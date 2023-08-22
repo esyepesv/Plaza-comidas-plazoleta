@@ -9,4 +9,6 @@ public interface IOrderPersistencePort {
     List<OrderModel> getRestaurantOrders(Long idRestaurant);
     OrderModel getOrder(Long idOrder);
     void updateOrder(OrderModel order);
+    OrderModel getOrderByIdClient(Long idClient);
+
 }
