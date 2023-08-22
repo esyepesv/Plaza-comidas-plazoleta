@@ -27,4 +27,6 @@ public class OrderEntity {
 
     private String state;
 
+    private int pin;
+
 }

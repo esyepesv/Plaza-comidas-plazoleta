@@ -22,10 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -88,8 +85,10 @@ public class OrderHandler implements IOrderHandler{
     }
 
     @Override
-    public void markAsReady(Long idOrder, String pin) {
+    public void markAsReady(Long idOrder) {
         OrderModel order = orderServicePort.getOrder(idOrder);
+        int pin = new Random().nextInt(10000);
+        order.setPin(pin);
         order.setState(State.LISTO);
         orderServicePort.saveOrder(order);
         ResponseEntity<UserDto> response = userFeignClient.getUser(order.getIdClient());
@@ -98,6 +97,14 @@ public class OrderHandler implements IOrderHandler{
             messageFeignClient.process(new SMSSendRequest(client.getPhone(), "Pin: " +pin));
         }
         else throw new NoDataFoundException();
+    }
+
+    @Override
+    public void deliver(Long idOrder, int pin) {
+        OrderModel order = orderServicePort.getOrder(idOrder);
+
+        order.setState(State.ENTREGADO);
+        orderServicePort.saveOrder(order);
     }
 
 

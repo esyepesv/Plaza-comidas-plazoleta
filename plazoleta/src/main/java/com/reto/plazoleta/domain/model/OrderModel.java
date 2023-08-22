@@ -19,5 +19,6 @@ public class OrderModel {
     private Long idChef;
     private Date date;
     private State state;
+    private int pin;
 
 }

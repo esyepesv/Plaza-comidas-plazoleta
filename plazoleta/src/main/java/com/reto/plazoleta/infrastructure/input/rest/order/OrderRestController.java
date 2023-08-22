@@ -95,9 +95,21 @@ public class OrderRestController {
             @ApiResponse(responseCode = "200", description = "order set as ready", content = @Content),
     })
     @PutMapping("/mark-as-ready")
-    public ResponseEntity<Void> markAsReady(@RequestParam Long idOrder, @RequestParam String pin){
+    public ResponseEntity<Void> markAsReady(@RequestParam Long idOrder){
 
-        orderHandler.markAsReady(idOrder, pin);
+        orderHandler.markAsReady(idOrder);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Operation(summary = "Mark order as delivered")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "order set as delivered", content = @Content),
+    })
+    @PutMapping("/deliver")
+    public ResponseEntity<Void> deliver(@RequestParam Long idOrder, @RequestParam int pin){
+
+        orderHandler.deliver(idOrder, pin);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

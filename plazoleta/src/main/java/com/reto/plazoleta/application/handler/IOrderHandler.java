@@ -13,5 +13,7 @@ public interface IOrderHandler {
 
     void takeOrder(Long idOrder, Long idEmployee);
 
-    void markAsReady(Long idOrder, String pin);
+    void markAsReady(Long idOrder);
+
+    void deliver(Long idOrder, int pin);
 }
