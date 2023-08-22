@@ -34,6 +34,7 @@ public class SecurityConfig {
                  .antMatchers("/orders/make-order").hasRole("CLIENT")
                  .antMatchers("/orders/get-restaurants-orders").hasRole("EMPLOYEE")
                  .antMatchers("/orders/mark-as-ready").hasRole("EMPLOYEE")
+                 .antMatchers("/orders/deliver").hasRole("EMPLOYEE")
                  .anyRequest()
                 .authenticated()
                 .and()
