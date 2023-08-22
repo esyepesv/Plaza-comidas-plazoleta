@@ -4,6 +4,8 @@ import com.reto.plazoleta.application.dto.UserDto;
 import com.reto.plazoleta.application.dto.request.SMSSendRequest;
 import com.reto.plazoleta.application.dto.request.order.OrderDto;
 import com.reto.plazoleta.application.dto.response.order.OrderResponse;
+import com.reto.plazoleta.application.exception.InvalidPinException;
+import com.reto.plazoleta.application.exception.InvalidStateException;
 import com.reto.plazoleta.application.mapper.IOrderRequestMapper;
 import com.reto.plazoleta.application.mapper.IOrderResponseMapper;
 import com.reto.plazoleta.domain.api.IDishServicePort;
@@ -17,6 +19,7 @@ import com.reto.plazoleta.infrastructure.exception.NoDataFoundException;
 import com.reto.plazoleta.infrastructure.out.feign.MessageFeignClient;
 import com.reto.plazoleta.infrastructure.out.feign.UserFeignClient;
 import com.reto.plazoleta.infrastructure.out.jpa.repository.IOrderDishRepository;
+import com.sun.jdi.request.InvalidRequestStateException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -103,8 +106,16 @@ public class OrderHandler implements IOrderHandler{
     public void deliver(Long idOrder, int pin) {
         OrderModel order = orderServicePort.getOrder(idOrder);
 
-        order.setState(State.ENTREGADO);
-        orderServicePort.saveOrder(order);
+        if(pin == order.getPin()){
+            if(order.getState().equals(State.LISTO)){
+                order.setState(State.ENTREGADO);
+                orderServicePort.saveOrder(order);
+            }
+            else throw new InvalidStateException();
+        }
+        else throw new InvalidPinException();
+
+
     }
 
 
