@@ -9,5 +9,5 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(name = "sms", url = "localhost:8083")
 public interface MessageFeignClient {
     @PostMapping(value = "/sms/process", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String process(@RequestBody SMSSendRequest sendRequest);
+    public void process(@RequestBody SMSSendRequest sendRequest);
 }

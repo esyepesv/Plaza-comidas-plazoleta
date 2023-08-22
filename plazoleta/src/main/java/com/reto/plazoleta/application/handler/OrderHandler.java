@@ -18,8 +18,6 @@ import com.reto.plazoleta.domain.model.State;
 import com.reto.plazoleta.infrastructure.exception.NoDataFoundException;
 import com.reto.plazoleta.infrastructure.out.feign.MessageFeignClient;
 import com.reto.plazoleta.infrastructure.out.feign.UserFeignClient;
-import com.reto.plazoleta.infrastructure.out.jpa.repository.IOrderDishRepository;
-import com.sun.jdi.request.InvalidRequestStateException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
