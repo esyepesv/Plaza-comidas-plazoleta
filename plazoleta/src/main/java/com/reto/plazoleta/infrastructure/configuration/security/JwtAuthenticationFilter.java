@@ -1,7 +1,5 @@
 package com.reto.plazoleta.infrastructure.configuration.security;
 
-//import com.users.users.domain.model.Role;
-//import com.users.users.infrastructure.output.jpa.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -44,10 +42,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         userEmail = jwtService.extractUsername(jwt);
         if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){
 
-            //UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
-
-            //if (jwtService.isTokenValid(jwt, userDetails)){
-
                 String userRole = jwtService.extractRole(jwt);
 
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
@@ -61,7 +55,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(authToken);
 
-            //}
         }
         filterChain.doFilter(request,response);
 
