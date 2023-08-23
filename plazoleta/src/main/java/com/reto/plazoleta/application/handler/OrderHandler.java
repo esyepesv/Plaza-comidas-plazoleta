@@ -2,6 +2,7 @@ package com.reto.plazoleta.application.handler;
 
 import com.reto.plazoleta.application.dto.UserDto;
 import com.reto.plazoleta.application.dto.request.SMSSendRequest;
+import com.reto.plazoleta.application.dto.request.TraceabilityRequest;
 import com.reto.plazoleta.application.dto.request.order.OrderDto;
 import com.reto.plazoleta.application.dto.response.order.OrderResponse;
 import com.reto.plazoleta.application.exception.InvalidPinException;
@@ -17,6 +18,7 @@ import com.reto.plazoleta.domain.model.OrderModel;
 import com.reto.plazoleta.domain.model.State;
 import com.reto.plazoleta.infrastructure.exception.NoDataFoundException;
 import com.reto.plazoleta.infrastructure.out.feign.MessageFeignClient;
+import com.reto.plazoleta.infrastructure.out.feign.TraceabilityFeignClient;
 import com.reto.plazoleta.infrastructure.out.feign.UserFeignClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -37,14 +39,16 @@ public class OrderHandler implements IOrderHandler{
     private final IDishServicePort dishServicePort;
     private final MessageFeignClient messageFeignClient;
     private final UserFeignClient userFeignClient;
+    private final TraceabilityFeignClient traceabilityFeignClient;
 
     @Override
     public void saveOrder(OrderDto orderDto) {
         OrderModel order = orderRequestMapper.toOrder(orderDto);
         List<OrderDishModel> orderDishes= orderRequestMapper.toOrderDishList(orderDto.getOrderDishes());
 
-        order.setState(State.PENDIENTE);
         order.setDate(new Date());
+        sendTraceability(order, State.PENDIENTE);
+        order.setState(State.PENDIENTE);
 
         order = orderServicePort.saveOrder(order);
         for(OrderDishModel orderDish: orderDishes) {
@@ -81,6 +85,7 @@ public class OrderHandler implements IOrderHandler{
     public void takeOrder(Long idOrder, Long idEmployee) {
         OrderModel order = orderServicePort.getOrder(idOrder);
         order.setIdChef(idEmployee);
+        sendTraceability(order,State.EN_PREPARACION);
         order.setState(State.EN_PREPARACION);
         orderServicePort.saveOrder(order);
     }
@@ -90,6 +95,7 @@ public class OrderHandler implements IOrderHandler{
         OrderModel order = orderServicePort.getOrder(idOrder);
         int pin = new Random().nextInt(10000);
         order.setPin(pin);
+        sendTraceability(order, State.LISTO);
         order.setState(State.LISTO);
         orderServicePort.saveOrder(order);
         ResponseEntity<UserDto> response = userFeignClient.getUser(order.getIdClient());
@@ -106,6 +112,7 @@ public class OrderHandler implements IOrderHandler{
 
         if(pin == order.getPin()){
             if(order.getState().equals(State.LISTO)){
+                sendTraceability(order, State.ENTREGADO);
                 order.setState(State.ENTREGADO);
                 orderServicePort.saveOrder(order);
             }
@@ -120,6 +127,7 @@ public class OrderHandler implements IOrderHandler{
     public String cancelOrder(Long idClient) {
         OrderModel order = orderServicePort.getOrderByIdClient(idClient);
         if (order.getState().equals(State.PENDIENTE)){
+            sendTraceability(order, State.CANCELADO);
             order.setState(State.CANCELADO);
             orderServicePort.updateOrder(order);
             return "Orden Cancelada";
@@ -127,6 +135,17 @@ public class OrderHandler implements IOrderHandler{
             return "Su pedido ya ha sido cancelado";
         }
         return "Lo sentimos, tu pedido ya esta en preparacion y no puede cancelarse";
+    }
+
+    public void sendTraceability(OrderModel order, State newState){
+        TraceabilityRequest request = new TraceabilityRequest();
+        request.setIdOrder(order.getId());
+        request.setIdClient(order.getIdClient());
+        request.setDate(new Date());
+        request.setPreviousState(order.getState());
+        request.setNewState(newState);
+        request.setIdEmployee(order.getIdChef());
+        traceabilityFeignClient.save(request);
     }
 
 
