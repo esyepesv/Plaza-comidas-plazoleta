@@ -1,7 +1,5 @@
 package com.reto.plazoleta.infrastructure.out.feign;
 
-import com.reto.plazoleta.application.dto.request.AuthenticationRequest;
-import com.reto.plazoleta.application.dto.response.AuthenticationResponse;
 import com.reto.plazoleta.application.dto.UserDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
@@ -15,8 +13,5 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface UserFeignClient {
     @GetMapping(value = "/users/{userId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<UserDto> getUser(@PathVariable Long userId);
-
-    @PostMapping(value = "/auth/authenticate", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request);
 
 }

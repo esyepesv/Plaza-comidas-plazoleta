@@ -40,7 +40,6 @@ public class RestaurantRestController {
             @ApiResponse(responseCode = "200", description = "All restaurants returned",
                     content = @Content(mediaType = "application/json",
                             array = @ArraySchema(schema = @Schema(implementation = RestaurantResponse.class)))),
-            //@ApiResponse(responseCode = "404", description = "No data found", content = @Content)
     })
     @GetMapping("/get-all")
     public ResponseEntity<List<RestaurantResponse>> getAllRestaurants(@RequestParam int nElements) {

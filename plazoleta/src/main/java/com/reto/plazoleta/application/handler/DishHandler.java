@@ -82,13 +82,13 @@ public class DishHandler implements IDishHandler{
         if (!category.isBlank()) {
             dishModels = dishModels.stream()
                     .filter(dish -> category.equalsIgnoreCase(dish.getCategory()))
-                    .collect(Collectors.toList());
+                    .toList();
         }
 
         dishModels = dishModels.stream()
                 .filter(DishModel::isActive)
                 .sorted(Comparator.comparing(DishModel::getName))
-                .collect(Collectors.toList());
+                .toList();
 
         if (nElements > 0 && nElements < dishModels.size()) {
             dishModels = dishModels.subList(0, nElements);

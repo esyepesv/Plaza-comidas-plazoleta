@@ -2,7 +2,6 @@ package com.reto.plazoleta.infrastructure.out.jpa.entity;
 
 import lombok.*;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

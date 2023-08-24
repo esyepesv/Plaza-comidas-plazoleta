@@ -4,7 +4,6 @@ import com.reto.plazoleta.domain.model.DishModel;
 import com.reto.plazoleta.domain.spi.IDishPersistencePort;
 import com.reto.plazoleta.infrastructure.exception.NoDataFoundException;
 import com.reto.plazoleta.infrastructure.out.jpa.entity.DishEntity;
-import com.reto.plazoleta.infrastructure.out.jpa.entity.RestaurantEntity;
 import com.reto.plazoleta.infrastructure.out.jpa.mapper.IDishEntityMapper;
 import com.reto.plazoleta.infrastructure.out.jpa.repository.IDishRepository;
 import lombok.RequiredArgsConstructor;

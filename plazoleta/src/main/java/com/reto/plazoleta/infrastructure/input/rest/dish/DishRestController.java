@@ -1,6 +1,5 @@
 package com.reto.plazoleta.infrastructure.input.rest.dish;
 
-import com.reto.plazoleta.infrastructure.configuration.security.JwtService;
 import com.reto.plazoleta.application.dto.request.dish.DishRequestDto;
 import com.reto.plazoleta.application.dto.request.dish.DishUpdateRequestDto;
 import com.reto.plazoleta.application.handler.IDishHandler;
@@ -20,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class DishRestController {
 
     private final IDishHandler dishHandler;
-    private final JwtService jwtService;
+
     int tokenStart = 7;
 
     @Operation(summary = "Add a new dish")
@@ -29,12 +28,9 @@ public class DishRestController {
     })
     @PostMapping("/create-dish")
     public ResponseEntity<Void> saveDish(
-            @Validated @RequestBody DishRequestDto dishRequestDto,
-            @RequestHeader("Authorization") String authorizationHeader
+            @Validated @RequestBody DishRequestDto dishRequestDto
     ) {
-        String token = authorizationHeader.substring(tokenStart);
-        Long idOwner = jwtService.extractId(token);
-        dishHandler.saveDish(dishRequestDto, idOwner);
+        dishHandler.saveDish(dishRequestDto);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -44,12 +40,8 @@ public class DishRestController {
             @ApiResponse(responseCode = "200", description = "dish updated", content = @Content),
     })
     @PutMapping("/update-dish")
-    public ResponseEntity<Void> updateDish(
-            @RequestBody DishUpdateRequestDto dishUpdateRequestDto,
-            @RequestHeader("Authorization") String authorizationHeader) {
-        String token = authorizationHeader.substring(tokenStart);
-        Long idOwner = jwtService.extractId(token);
-        dishHandler.updateDish(dishUpdateRequestDto, idOwner);
+    public ResponseEntity<Void> updateDish( @RequestBody DishUpdateRequestDto dishUpdateRequestDto) {
+        dishHandler.updateDish(dishUpdateRequestDto);
         return ResponseEntity.ok().build();
     }
 
@@ -60,16 +52,8 @@ public class DishRestController {
     @PutMapping("/enable-dish")
     public ResponseEntity<Void> enableDish(
             @RequestParam Long id,
-            @RequestParam boolean isActive,
-            @RequestHeader("Authorization") String authorizationHeader) {
-        String token = authorizationHeader.substring(tokenStart);
-        Long idOwner = jwtService.extractId(token);
-        dishHandler.enableDish(id, isActive, idOwner);
+            @RequestParam boolean isActive) {
+        dishHandler.enableDish(id, isActive);
         return ResponseEntity.ok().build();
     }
-
-
-
-
-
 }

@@ -27,7 +27,6 @@ public class OrderRestController {
 
     private final IDishHandler dishHandler;
     private final IOrderHandler orderHandler;
-    private final JwtService jwtService;
 
     @Operation(summary = "Get all restaurant´s dishes")
     @ApiResponses(value = {
@@ -49,12 +48,7 @@ public class OrderRestController {
             @ApiResponse(responseCode = "201", description = "Order created", content = @Content),
     })
     @PostMapping("/make-order")
-    public ResponseEntity<Void> makeOrder(@RequestBody OrderDto order,
-                                          @RequestHeader("Authorization") String authorizationHeader) {
-        String token = authorizationHeader.substring("Bearer ".length());
-        Long idClient = jwtService.extractId(token);
-        order.setIdClient(idClient);
-
+    public ResponseEntity<Void> makeOrder(@RequestBody OrderDto order) {
         orderHandler.saveOrder(order);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -80,12 +74,8 @@ public class OrderRestController {
             @ApiResponse(responseCode = "200", description = "order taken", content = @Content),
     })
     @PutMapping("/take-order")
-    public ResponseEntity<Void> takeOrder(@RequestParam Long idOrder,
-                                          @RequestHeader("Authorization") String authorizationHeader) {
-        String token = authorizationHeader.substring("Bearer ".length());
-        Long idEmployee = jwtService.extractId(token);
-
-        orderHandler.takeOrder(idOrder, idEmployee);
+    public ResponseEntity<Void> takeOrder(@RequestParam Long idOrder) {
+        orderHandler.takeOrder(idOrder);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -119,9 +109,7 @@ public class OrderRestController {
             @ApiResponse(responseCode = "200", description = "order canceled", content = @Content),
     })
     @PutMapping("/cancel")
-    public ResponseEntity<String> cancerOrder(@RequestHeader("Authorization") String authorizationHeader) {
-        String token = authorizationHeader.substring("Bearer ".length());
-        Long idClient = jwtService.extractId(token);
+    public ResponseEntity<String> cancerOrder() {
 
        String response = orderHandler.cancelOrder(idClient);
 
