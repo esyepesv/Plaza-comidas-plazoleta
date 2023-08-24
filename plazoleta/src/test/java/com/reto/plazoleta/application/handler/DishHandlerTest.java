@@ -17,8 +17,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -66,7 +64,7 @@ class DishHandlerTest {
         RestaurantModel restaurant = new RestaurantModel();
         when(restaurantServicePort.getRestaurantByIdOwner(31L)).thenReturn(restaurant);
 
-        dishHandler.saveDish(dishRequestDto, 31L);
+        dishHandler.saveDish(dishRequestDto);
 
         verify(dishServicePort).saveDish(dish);
     }
@@ -92,7 +90,7 @@ class DishHandlerTest {
         RestaurantModel restaurant = new RestaurantModel();
         when(restaurantServicePort.getRestaurantByIdOwner(31L)).thenReturn(restaurant);
 
-        dishHandler.updateDish(dishUpdateRequestDto, 31L);
+        dishHandler.updateDish(dishUpdateRequestDto);
 
         assertEquals(100, dish.getPrice());
         assertEquals("Una nueva descripción", dish.getDescription());
@@ -115,7 +113,7 @@ class DishHandlerTest {
         when(dishServicePort.getDish(id)).thenReturn(dishModel);
         when(restaurantServicePort.getRestaurantByIdOwner(idOwner)).thenReturn(restaurantModel);
 
-        dishHandler.enableDish(id, isActive, idOwner);
+        dishHandler.enableDish(id, isActive);
 
         assertTrue(dishModel.isActive());
         verify(dishServicePort).updateDish(dishModel);

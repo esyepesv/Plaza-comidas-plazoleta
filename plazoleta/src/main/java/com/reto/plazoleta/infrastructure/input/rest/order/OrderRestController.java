@@ -6,7 +6,6 @@ import com.reto.plazoleta.application.dto.response.order.OrderResponse;
 import com.reto.plazoleta.application.handler.IDishHandler;
 import com.reto.plazoleta.application.handler.IOrderHandler;
 import com.reto.plazoleta.domain.model.State;
-import com.reto.plazoleta.infrastructure.configuration.security.JwtService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -74,8 +73,8 @@ public class OrderRestController {
             @ApiResponse(responseCode = "200", description = "order taken", content = @Content),
     })
     @PutMapping("/take-order")
-    public ResponseEntity<Void> takeOrder(@RequestParam Long idOrder) {
-        orderHandler.takeOrder(idOrder);
+    public ResponseEntity<Void> takeOrder(@RequestParam Long idOrder, @RequestParam Long idEmployee) {
+        orderHandler.takeOrder(idOrder, idEmployee);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -109,7 +108,7 @@ public class OrderRestController {
             @ApiResponse(responseCode = "200", description = "order canceled", content = @Content),
     })
     @PutMapping("/cancel")
-    public ResponseEntity<String> cancerOrder() {
+    public ResponseEntity<String> cancerOrder(@RequestParam Long idClient) {
 
        String response = orderHandler.cancelOrder(idClient);
 

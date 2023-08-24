@@ -7,11 +7,11 @@ import com.reto.plazoleta.application.dto.response.DishResponse;
 import java.util.List;
 
 public interface IDishHandler {
-    void saveDish(DishRequestDto dishRequestDto, Long idOwner);
+    void saveDish(DishRequestDto dishRequestDto);
 
-    void updateDish(DishUpdateRequestDto dishUpdateRequestDto, Long idOwner);
+    void updateDish(DishUpdateRequestDto dishUpdateRequestDto);
 
-    void enableDish(Long id, boolean isActive, Long idOwner);
+    void enableDish(Long id, boolean isActive);
 
     List<DishResponse> getRestaurantDishes(Long idRestaurant, int nElements, String category);
 

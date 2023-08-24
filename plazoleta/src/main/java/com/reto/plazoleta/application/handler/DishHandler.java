@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -30,26 +29,19 @@ public class DishHandler implements IDishHandler{
 
 
     @Override
-    public void saveDish(DishRequestDto dishRequestDto, Long idOwner) {
+    public void saveDish(DishRequestDto dishRequestDto) {
         DishModel dish = dishRequestMapper.toDish(dishRequestDto);
         dish.setActive(true);
-
-        RestaurantModel restaurant = restaurantServicePort.getRestaurantByIdOwner(idOwner);
-
-        Long idRestaurant = restaurant.getId();
-        dish.setIdRestaurant(idRestaurant);
         dishServicePort.saveDish(dish);
     }
 
     @Override
-    public void updateDish(DishUpdateRequestDto dishUpdateRequestDto, Long idOwner) {
+    public void updateDish(DishUpdateRequestDto dishUpdateRequestDto) {
 
         DishModel dish = dishServicePort.getDish(dishUpdateRequestDto.getId());
-        RestaurantModel restaurantModel = restaurantServicePort.getRestaurantByIdOwner(idOwner);
-        Long idRestaurant = restaurantModel.getId();
 
 
-        if (dish != null && (Objects.equals(dish.getIdRestaurant(), idRestaurant))) {
+        if (dish != null) {
             int newPrice = dishUpdateRequestDto.getPrice();
             String newDescription = dishUpdateRequestDto.getDescription();
 
@@ -64,12 +56,10 @@ public class DishHandler implements IDishHandler{
     }
 
     @Override
-    public void enableDish(Long id, boolean isActive, Long idOwner) {
+    public void enableDish(Long id, boolean isActive) {
         DishModel dish = dishServicePort.getDish(id);
-        RestaurantModel restaurantModel = restaurantServicePort.getRestaurantByIdOwner(idOwner);
-        Long idRestaurant = restaurantModel.getId();
 
-        if (dish != null && (Objects.equals(dish.getIdRestaurant(), idRestaurant))) {
+        if (dish != null) {
             dish.setActive(isActive);
             dishServicePort.updateDish(dish);
         }
