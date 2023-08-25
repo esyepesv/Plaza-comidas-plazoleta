@@ -112,8 +112,6 @@ public class OrderHandler implements IOrderHandler{
             else throw new InvalidStateException();
         }
         else throw new InvalidPinException();
-
-
     }
 
     @Override

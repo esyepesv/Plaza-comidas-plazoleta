@@ -67,9 +67,9 @@ public class DishHandler implements IDishHandler{
 
     @Override
     public List<DishResponse> getRestaurantDishes(Long idRestaurant, int nElements, String category) {
-        List<DishModel> dishModels = dishServicePort.getRestaurantDishes(idRestaurant);
+        List<DishModel> dishModels = dishServicePort.getDishes();
 
-        if (!category.isBlank()) {
+        /*if (!category.isBlank()) {
             dishModels = dishModels.stream()
                     .filter(dish -> category.equalsIgnoreCase(dish.getCategory()))
                     .toList();
@@ -82,7 +82,7 @@ public class DishHandler implements IDishHandler{
 
         if (nElements > 0 && nElements < dishModels.size()) {
             dishModels = dishModels.subList(0, nElements);
-        }
+        }*/
 
         return dishResponseMapper.toResponseList(dishModels);
     }

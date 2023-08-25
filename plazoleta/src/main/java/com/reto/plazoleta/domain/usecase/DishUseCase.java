@@ -33,4 +33,9 @@ public class DishUseCase implements IDishServicePort {
     public List<DishModel> getRestaurantDishes(Long idRestaurant) {
         return dishPersistencePort.getRestaurantDishes(idRestaurant);
     }
+
+    @Override
+    public List<DishModel> getDishes() {
+        return dishPersistencePort.getDishes();
+    }
 }

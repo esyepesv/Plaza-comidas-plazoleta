@@ -33,7 +33,7 @@ public class RestaurantHandler implements IRestaurantHandler {
 
     @Override
     public void saveRestaurant(RestaurantRequestDto restaurantRequestDto) {
-        ResponseEntity<UserDto> response = client.getUser(restaurantRequestDto.getIdOwner());
+        /*ResponseEntity<UserDto> response = client.getUser(restaurantRequestDto.getIdOwner());
         if(response.getStatusCode().is2xxSuccessful()){
             UserDto user = response.getBody();
             if (user != null && user.getIdRol() == 2) {
@@ -42,7 +42,9 @@ public class RestaurantHandler implements IRestaurantHandler {
             }
             else throw new InvalidUserRoleException();
         }
-        else throw new UserNotFoundException();
+        else throw new UserNotFoundException();*/
+        RestaurantModel restaurantModel = restaurantRequestMapper.toRestaurant(restaurantRequestDto);
+        restaurantServicePort.saveRestaurant(restaurantModel);
     }
 
     @Override

@@ -9,5 +9,6 @@ public interface IDishPersistencePort {
     DishModel getDish(Long id);
     void updateDish(DishModel dish);
     List<DishModel> getRestaurantDishes(Long idRestaurant);
+    List<DishModel> getDishes();
 
 }

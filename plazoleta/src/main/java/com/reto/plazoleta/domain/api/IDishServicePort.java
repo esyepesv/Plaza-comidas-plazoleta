@@ -9,5 +9,6 @@ public interface IDishServicePort {
     DishModel getDish(Long id);
     void updateDish(DishModel dish);
     List<DishModel> getRestaurantDishes(Long idRestaurant);
+    List<DishModel> getDishes();
 
 }
